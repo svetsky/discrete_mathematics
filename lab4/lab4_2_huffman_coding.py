@@ -32,9 +32,9 @@ for i in range(n-1):
     z = Node()
     char1 = Q.get()
     char2 = Q.get()
-    z.left = char1
-    z.right = char2
-    z.frequency = char1.frequency + char1.frequency
+    z.left = char1[1]
+    z.right = char2[1]
+    z.frequency = char1[1].frequency + char1[1].frequency
     Q.put(z.frequency, z)
 
 node = Q.get()
