@@ -34,10 +34,10 @@ for i in range(n-1):
     char2 = Q.get()
     z.left = char1[1]
     z.right = char2[1]
-    z.frequency = char1[1].frequency + char1[1].frequency
-    Q.put(z.frequency, z)
+    z.frequency = char1[1].frequency + char2[1].frequency
+    Q.put((z.frequency, z))
 
-node = Q.get()
+root = Q.get()
 
 
 
