@@ -14,27 +14,28 @@ class Node:
         self.left = None
         self.right = None
 
+    # Переопределяем метод сравнения для работы с PriorityQueue
     def __lt__(self, other):
         return self.frequency < other.frequency
 
-'''
 # создание C - словарь, в котором ключи - буквы, а значения - частоты соответствующих букв
 C = {}
 file = open('letter_frequencies.txt')
 for line in file:
-    char, frequency = line.split()
+    char, frequency = line.split(': ')
     C[char] = int(frequency)
 file.close()
 '''
 C = {'A': 10, 'B': 5, 'C': 7, 'D': 1, 'E': 6}
+'''
 n = len(C)  # количество различных символов в тексте
 
 # Добавляем все элементы словаря C в очередь с приоритетом Q
 Q = PriorityQueue()
-unique_id = itertools.count() 
+unique_id = itertools.count()  # Уникальный идентификатор для узлов
 for key, freq in C.items():
     char = Node(key, freq)
-    Q.put((freq, next(unique_id), char))  
+    Q.put((freq, next(unique_id), char))  # Добавляем уникальный идентификатор
 
 # Алгоритм Хаффмана (строим дерево)
 for i in range(n - 1):
@@ -46,9 +47,9 @@ for i in range(n - 1):
     z = Node(frequency=freq1 + freq2)
     z.left = char1
     z.right = char2
-    Q.put((z.frequency, next(unique_id), z)) 
+    Q.put((z.frequency, next(unique_id), z))  # Добавляем уникальный идентификатор
 
-# корень дерева
+# Получаем корень дерева
 root = Q.get()[2]
 
 # Функция для генерации кодов Хаффмана
@@ -63,11 +64,29 @@ def generate_huffman_codes(node, code="", code_dict=None):
     return code_dict
 
 
+# Генерация кодов Хаффмана
 huffman_codes = generate_huffman_codes(root)
+
+# Вывод кодов Хаффмана
 print("Коды Хаффмана:")
 for symbol, code in huffman_codes.items():
     print(f"Символ: {symbol}, Код: {code}")
 
+# Кодируем текст
+missed_chars = set()
+text = open('text.txt')
+encoded = open('encoded_text.txt', 'w')
+for line in text:
+    for char in line:
+        if char not in huffman_codes:
+            missed_chars.add(char)
+            continue
+        encoded.write(huffman_codes[char])
+encoded.close()
+text.close()
+
+if missed_chars:
+    print('Прорущенные символы:', missed_chars)
 
 
 
