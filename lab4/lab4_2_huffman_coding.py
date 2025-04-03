@@ -19,12 +19,22 @@ class Node:
         return self.frequency < other.frequency
 
 # создание C - словарь, в котором ключи - буквы, а значения - частоты соответствующих букв
-C = {}
 file = open('letter_frequencies.txt')
+lst = []
 for line in file:
-    char, frequency = line.split(': ')
-    C[char] = int(frequency)
+    lst.append(line)
 file.close()
+C = {}
+i = 0
+while i < len(lst):
+    if len(lst[i])>2:
+        char, frequency = lst[i].split(': ')
+        C[char] = int(frequency)
+    else:
+        C['\n'] = int(lst[i+1].replace(': ', ''))
+        i += 1
+    i += 1
+print(C)
 '''
 C = {'A': 10, 'B': 5, 'C': 7, 'D': 1, 'E': 6}
 '''
@@ -87,7 +97,6 @@ text.close()
 
 if missed_chars:
     print('Прорущенные символы:', missed_chars)
-
 
 
 
